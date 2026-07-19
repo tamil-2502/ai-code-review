@@ -71,16 +71,24 @@ function Auth({ mode }) {
   const [error, setError] = useState("");
 
   const submit = async e => {
-    e.preventDefault();
-    try {
-      const { data } = await api.post(`/auth/${mode}`, form);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/");
-    } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
-    }
-  };
+  e.preventDefault();
+
+  try {
+    const { data } = await api.post(`/auth/${mode}`, form);
+
+    console.log("LOGIN SUCCESS", data);
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    console.log("NAVIGATING TO DASHBOARD");
+
+    navigate("/");
+  } catch (err) {
+    console.log("LOGIN ERROR", err);
+    setError(err.response?.data?.message || "Something went wrong");
+  }
+};
 
   return <div className="authPage">
     <div className="authCard">
@@ -94,7 +102,10 @@ function Auth({ mode }) {
         {error && <div className="errorBox">{error}</div>}
         <button className="primary full">{mode === "login" ? "Sign In" : "Create Account"}</button>
       </form>
-      <p className="switch">{mode === "login" ? "Don't have an account?" : "Already have an account?"} <button onClick={() => navigate(mode === "login" ? "/register" : "/login")}>{mode === "login" ? "Register" : "Login"}</button></p>
+      <p className="switch">{mode === "login" ? "Don't have an account?" : "Already have an account?"} <button
+  type="button"
+  onClick={() => navigate(mode === "login" ? "/register" : "/login")}
+>{mode === "login" ? "Register" : "Login"}</button></p>
     </div>
   </div>;
 }
