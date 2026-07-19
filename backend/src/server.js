@@ -1,12 +1,19 @@
 import "dotenv/config";
 import express from "express";
-import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 
+import cors from "cors";
+
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://ai-code-review-lovat.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(express.json({ limit: "2mb" }));
 
 app.get("/", (req, res) => {
