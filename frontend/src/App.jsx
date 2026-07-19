@@ -51,7 +51,9 @@ function Shell() {
     <main className="main">
       <header className="topbar">
         <button className="iconBtn" onClick={() => setCollapsed(!collapsed)}><Menu size={20}/></button>
-        <div className="topRight"><Bell size={19}/><div className="avatar">T</div><span>Tamilarasi</span></div>
+        <div className="topRight"><Bell size={19}/><div className="avatar">
+    {JSON.parse(localStorage.getItem("user"))?.name?.charAt(0).toUpperCase() || "U"}
+  </div><span>{JSON.parse(localStorage.getItem("user"))?.name || "User"}</span></div>
       </header>
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -121,7 +123,7 @@ function Dashboard() {
   }, []);
 
   return <section className="page">
-    <div className="pageHead"><div><h1>Dashboard</h1><p>Welcome back, Tamilarasi!</p></div></div>
+    <div className="pageHead"><div><h1>Dashboard</h1><p>Welcome back, {JSON.parse(localStorage.getItem("user"))?.name || "User"}!</p></div></div>
     <div className="stats">
       <Stat icon={<FileCode2/>} label="Total Reviews" value={stats.totalReviews}/>
       <Stat icon={<ShieldCheck/>} label="Passed Reviews" value={stats.passedReviews}/>
